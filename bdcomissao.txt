@@ -1,0 +1,40 @@
+create database bdcomissao;
+
+use bdcomissao;
+
+create table tbvendedor
+(
+idvendedor int(4) auto_increment primary key,
+vendedor varchar(60) not null,
+email varchar(30) not null,
+contato varchar(15) not null,
+situacao char(1) default 'A'
+);
+
+create table tbcomissao
+(
+idcomissao int(4) auto_increment primary key,
+idcomissao_vendedor int(4) not null,
+data date not null,
+valor_venda decimal(10,2) not null,
+percentual_comissao decimal(6,2) not null,
+
+foreign key(idcomissao_vendedor) references tbvendedor(idvendedor)
+);
+
+create table tbusuarios
+(
+idusuario int(4) auto_increment primary key,
+usuario varchar(30) not null,
+senha varchar(20) not null,
+nivel int(1) null
+);
+
+insert into tbusuarios (usuario, senha, nivel)
+values ('admin', '123', 1);
+
+select tbcomissao.idcomissao, tbcomissao.idcomissao_vendedor, tbvendedor.vendedor,
+tbcomissao.data, tbcomissao.valor_venda, tbcomissao.percentual_comissao from tbcomissao 
+inner join tbvendedor on tbvendedor.idvendedor = tbcomissao.idcomissao_vendedor;
+
+select*from tbusuarios
